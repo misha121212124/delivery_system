@@ -28,10 +28,10 @@ public class Order implements Serializable {
     private Good good;
 
 //    @Transient
-//    @ManyToMany(mappedBy = "orders")///???
-//    private Set<Carriage> carriages;
+    @ManyToMany(mappedBy = "orders")///???
+    private Set<Carriage> carriages;
 
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
-    private Set<OrdersOnCarriage> ordersOnCarriageSet;
+//    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+//    private Set<OrdersOnCarriage> ordersOnCarriageSet;
 
 }

@@ -25,11 +25,15 @@ public class Carriage implements Serializable {
     @OneToMany(mappedBy = "carriage", cascade = CascadeType.ALL)
     private Set<RoutesForCarriage> routesForCarriageSet;
 
-//    @ManyToMany(fetch = FetchType.EAGER)
-//    private Set<Order> orders;
+    @ManyToMany///апдейтиити треба carriage.setOrders();, не можна order.setCarriages();
+    @JoinTable(
+            name = "carriages_orders",
+            joinColumns = @JoinColumn(name = "carriage_id"),
+            inverseJoinColumns = @JoinColumn(name = "order_id"))
+    private Set<Order> orders;
 
-    @OneToMany(mappedBy = "carriage", cascade = CascadeType.ALL)
-    private Set<OrdersOnCarriage> ordersOnCarriageSet;
+//    @OneToMany(mappedBy = "carriage", cascade = CascadeType.ALL)
+//    private Set<OrdersOnCarriage> ordersOnCarriageSet;
 
 
 }
