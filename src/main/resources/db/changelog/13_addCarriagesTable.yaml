@@ -1,0 +1,26 @@
+databaseChangeLog:
+  - logicalFilePath: db/changelog/13_addCarriagesTable.yaml
+  - changeSet:
+      id: 13
+      author: Mykhailo Muliar
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: capacity
+                  type: int
+                  constraints:
+                    nullable: false
+              - column:
+                  name: point
+                  type: int
+                  constraints:
+                    nullable: false
+            tableName: carriages

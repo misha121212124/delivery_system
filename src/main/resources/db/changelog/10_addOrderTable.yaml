@@ -1,0 +1,55 @@
+databaseChangeLog:
+  - logicalFilePath: db/changelog/10_addOrderTable.yaml
+  - changeSet:
+      id: 10
+      author: Mykhailo Muliar
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: count
+                  type: int
+                  constraints:
+                    nullable: false
+              - column:
+                  name: outlets_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: goods_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+            tableName: orders
+  - changeSet:
+      id: 11
+      author: Mykhailo Muliar
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: outlets_id
+            baseTableName: orders
+            constraintName: outlets_id_FK
+            deferrable: false
+            initiallyDeferred: false
+            referencedColumnNames: id
+            referencedTableName: outlets
+  - changeSet:
+      id: 12
+      author: Mykhailo Muliar
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: goods_id
+            baseTableName: orders
+            constraintName: goods_id_FK
+            deferrable: false
+            initiallyDeferred: false
+            referencedColumnNames: id
+            referencedTableName: goods

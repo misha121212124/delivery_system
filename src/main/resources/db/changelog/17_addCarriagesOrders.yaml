@@ -1,0 +1,50 @@
+databaseChangeLog:
+  - logicalFilePath: db/changelog/17_addCarriagesOrders.yaml
+  - changeSet:
+      id: 17
+      author: Mykhailo Muliar
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: carriage_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: order_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+            tableName: carriages_orders
+  - changeSet:
+      id: 18
+      author: Mykhailo Muliar
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: carriage_id
+            baseTableName: carriages_orders
+            constraintName: carriage_id_FK
+            deferrable: false
+            initiallyDeferred: false
+            referencedColumnNames: id
+            referencedTableName: carriages
+  - changeSet:
+      id: 19
+      author: Mykhailo Muliar
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: order_id
+            baseTableName: carriages_orders
+            constraintName: order_id_FK
+            deferrable: false
+            initiallyDeferred: false
+            referencedColumnNames: id
+            referencedTableName: orders
