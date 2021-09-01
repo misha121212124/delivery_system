@@ -20,12 +20,16 @@ public class Carriage implements Serializable {
     private int capacity;
 
     @Column(name = "point", nullable = false)
-    private byte point;/////!!!!!
+    private int point;
 
     @OneToMany(mappedBy = "carriage", cascade = CascadeType.ALL)
     private Set<RoutesForCarriage> routesForCarriageSet;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    private Set<Order> orders;
+//    @ManyToMany(fetch = FetchType.EAGER)
+//    private Set<Order> orders;
+
+    @OneToMany(mappedBy = "carriage", cascade = CascadeType.ALL)
+    private Set<OrdersOnCarriage> ordersOnCarriageSet;
+
 
 }

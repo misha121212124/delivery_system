@@ -19,7 +19,7 @@ public class RoutesForCarriage implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    private byte point;
+    private int point;
 
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)

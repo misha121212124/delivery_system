@@ -20,11 +20,11 @@ public class Route implements Serializable {
 
     //////////////???????????????//////////////
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "outlet_id")
+    @JoinColumn(name = "outlet_from_id")
     private Outlet outlet_from;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "outlet_id")
+    @JoinColumn(name = "outlet_to_id")
     private Outlet outlet_to;
     //////////////////////////////
 

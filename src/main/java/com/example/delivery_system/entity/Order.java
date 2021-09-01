@@ -27,8 +27,11 @@ public class Order implements Serializable {
     @JoinColumn(name = "good_id")
     private Good good;
 
-    @Transient
-    @ManyToMany(mappedBy = "orders")///???
-    private Set<Carriage> carriages;
+//    @Transient
+//    @ManyToMany(mappedBy = "orders")///???
+//    private Set<Carriage> carriages;
+
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+    private Set<OrdersOnCarriage> ordersOnCarriageSet;
 
 }
