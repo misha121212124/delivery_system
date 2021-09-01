@@ -1,5 +1,6 @@
 package com.example.delivery_system.service;
 
+import com.example.delivery_system.entity.GoodsInOutlets;
 import com.example.delivery_system.entity.Outlet;
 import com.example.delivery_system.repository.OutletRepository;
 import lombok.RequiredArgsConstructor;
@@ -9,22 +10,31 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
 public class OutletService {
 
-//    public OutletService(OutletRepository outletRepository) {
-//        this.outletRepository = outletRepository;
-//    }
-
-//    @Autowired
 
     private final OutletRepository outletRepository;
 
     public Outlet findOutletById(Long outletId) {
-        Optional<Outlet> cargoFromDb = outletRepository.findById(outletId);
-        return cargoFromDb.orElse(new Outlet());
+        Optional<Outlet> outletFromDb = outletRepository.findById(outletId);
+        return outletFromDb.orElse(new Outlet());
+    }
+
+    public Outlet update(Outlet newOutlet, Long oldId) {
+        return outletRepository.findById(oldId).
+                map(outlet -> {
+                    outlet.setName(newOutlet.getName());
+                    outlet.setGoodsInOutletsSet(newOutlet.getGoodsInOutletsSet());
+                    return outletRepository.save(outlet);
+                })
+                .orElseGet(() -> {
+                    newOutlet.setId(oldId);
+                    return outletRepository.save(newOutlet);
+                });
     }
 
     public List<Outlet> allOutlets() {
@@ -36,7 +46,8 @@ public class OutletService {
         return outletRepository.save(newOutlet);
     }
 
-    public void deleteById(long id){
-        outletRepository.deleteById(id);
+    public void deleteById(long outletId){
+        outletRepository.deleteById(outletId);
     }
+
 }
