@@ -1,0 +1,53 @@
+databaseChangeLog:
+  - logicalFilePath: db/changelog/4_addOutletsGoodsTable.yaml
+  - changeSet:
+      id: 4
+      author: Mykhailo Muliar
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: outlets_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: goods_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: count
+                  type: int
+            tableName: outlets_goods
+  - changeSet:
+      id: 5
+      author: Mykhailo Muliar
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: outlets_id
+            baseTableName: outlets_goods
+            constraintName: outlets_id_FK
+            deferrable: false
+            initiallyDeferred: false
+            referencedColumnNames: id
+            referencedTableName: outlets
+  - changeSet:
+      id: 6
+      author: Mykhailo Muliar
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: goods_id
+            baseTableName: outlets_goods
+            constraintName: goods_id_FK
+            deferrable: false
+            initiallyDeferred: false
+            referencedColumnNames: id
+            referencedTableName: goods

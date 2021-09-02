@@ -1,0 +1,27 @@
+databaseChangeLog:
+  - logicalFilePath: db/changelog/3_addGoodsTable.yaml
+  - changeSet:
+      id: 3
+      author: Mykhailo Muliar
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(50)
+                  constraints:
+                    unique: true
+                    nullable: false
+              - column:
+                  name: volume
+                  type: int
+                  constraints:
+                    nullable: false
+            tableName: goods

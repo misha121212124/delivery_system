@@ -1,0 +1,28 @@
+databaseChangeLog:
+  - logicalFilePath: db.changelog/db.changelog-lesson1.yaml
+  - include:
+      file: 1_addOutletTable.yaml
+      relativeToChangelogFile: true
+  - include:
+      file: 3_addGoodsTable.yaml
+      relativeToChangelogFile: true
+  - include:
+      file: 4_addOutletsGoodsTable.yaml
+      relativeToChangelogFile: true
+  - include:
+      file: 7_addRouteTable.yaml
+      relativeToChangelogFile: true
+  - include:
+      file: 10_addOrderTable.yaml
+      relativeToChangelogFile: true
+  - include:
+      file: 13_addCarriagesTable.yaml
+      relativeToChangelogFile: true
+  - include:
+      file: 14_addCarriagesRoutesTable.yaml
+      relativeToChangelogFile: true
+  - include:
+      file: 17_addCarriagesOrders.yaml
+      relativeToChangelogFile: true
+
+

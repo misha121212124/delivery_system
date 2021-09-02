@@ -1,0 +1,45 @@
+databaseChangeLog:
+  - logicalFilePath: db/changelog/1_addOutletTable.yaml
+  - changeSet:
+      id: 1
+      author: Mykhailo Muliar
+      changes:
+        - createTable:
+            tableName: outlets
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(50)
+                  constraints:
+                    unique: true
+                    nullable: false
+#  - changeSet:
+#      id: 2
+#      author: Mykhailo Muliar
+#      comment: "Insert test records"
+#      changes:
+#        - insert:
+#            tableName: outlets
+#            columns:
+#              - column:
+#                  name: name
+#                  value: "first_outlet"
+#
+#        - insert:
+#            tableName: outlets
+#            columns:
+#              - column:
+#                  name: name
+#                  value: "second_outlet"
+#
+#      rollback:
+#        - delete:
+#            tableName: users
+#            where: name in ('first_outlet', 'second_outlet')
