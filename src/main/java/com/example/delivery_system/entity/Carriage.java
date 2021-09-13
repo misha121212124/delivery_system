@@ -13,13 +13,13 @@ public class Carriage implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+//    @Column(name = "id")
     private Long id;
 
-    @Column(name = "capacity", nullable = false)
+    @Column(/*name = "capacity",*/ nullable = false)
     private int capacity;
 
-    @Column(name = "point", nullable = false)
+    @Column(/*name = "point",*/ nullable = false)
     private int point;
 
     @OneToMany(mappedBy = "carriage", cascade = CascadeType.ALL)

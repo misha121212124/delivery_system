@@ -50,4 +50,14 @@ public class RoutesForCarriage implements Serializable {
     public int hashCode() {
         return Objects.hash(route.getId(), carriage.getId(), point);
     }
+
+    @Override
+    public String toString() {
+        return "RoutesForCarriage{" +
+                "id=" + id +
+                ", point=" + point +
+                ", route_id=" + route.getId() +
+                ", carriage_id=" + carriage.getId() +
+                '}';
+    }
 }

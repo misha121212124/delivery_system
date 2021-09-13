@@ -45,4 +45,14 @@ public class GoodsInOutlets implements Serializable {
     public int hashCode() {
         return Objects.hash(outlet.getName(), good.getName(), count);
     }
+
+    @Override
+    public String toString() {
+        return "GoodsInOutlets{" +
+                "id=" + id +
+                ", outlet_id=" + outlet.getId() +
+                ", good_id=" + good.getId() +
+                ", count=" + count +
+                '}';
+    }
 }

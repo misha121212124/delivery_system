@@ -13,10 +13,10 @@ public class Order implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+//    @Column(name = "id")
     private Long id;
 
-    @Column(name = "count", nullable = false)
+    @Column(/*name = "count",*/ nullable = false)
     private int count;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)

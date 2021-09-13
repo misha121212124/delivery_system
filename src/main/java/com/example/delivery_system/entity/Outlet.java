@@ -4,6 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 import java.util.Set;
 
 @Data
@@ -13,17 +14,13 @@ public class Outlet implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    //@Getter
     private Long id;
 
-    @Column(name = "name", unique = true, nullable = false)
-    //@Getter @Setter//(AccessLevel.PUBLIC)
+    @Column(/*name = "name",*/ unique = true, nullable = false)
     private String name;
-//    @Column(name = "sname", unique = true, nullable = false)
-//    @Getter @Setter//(AccessLevel.PUBLIC)
-//    private String sname;
+
 
     @OneToMany(mappedBy = "outlet", cascade = CascadeType.ALL)////розібратися, чому з mappedBy = "outlets" виникає помилка
-    private Set<GoodsInOutlets> goodsInOutletsSet;
+    private List<GoodsInOutlets> goodsInOutletsSet;
 }
 

@@ -12,10 +12,10 @@ import java.util.Set;
 public class Route implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+//    @Column(name = "id")
     private Long id;
 
-    @Column(name = "distance", nullable = false)
+//    @Column(name = "distance", nullable = false)
     private float distance;
 
     //////////////???????????????//////////////

@@ -4,7 +4,7 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Data
@@ -13,24 +13,24 @@ import java.util.Set;
 public class Good implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+//    @Column(name = "id")
     private Long id;
 
-    @Column(name = "name", unique = true, nullable = false)
+    @Column(/*name = "name",*/ unique = true, nullable = false)
     private String name;
 
-    @Column(name = "volume", nullable = false)
-    private String volume;
+    @Column(/*name = "volume",*/ nullable = false)
+    private int volume;
 
     @OneToMany(mappedBy = "good", cascade = CascadeType.ALL)
-    private Set<GoodsInOutlets> goodsInOutlets;////is new needed?
+    private List<GoodsInOutlets> goodsInOutlets;
 
-    public Good(String name, String volume) {
-        this.name = name;
-        this.volume = volume;
-    }
-
-    public Good() {
-
-    }
+//    public Good(String name, int volume) {
+//        this.name = name;
+//        this.volume = volume;
+//    }
+//
+//    public Good() {
+//
+//    }
 }
