@@ -1,9 +1,11 @@
 package com.example.delivery_system.dto;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 
 import java.io.Serializable;
-import java.util.Set;
+import java.util.List;
 
 @Data
 public class RouteDto implements Serializable {
@@ -12,10 +14,13 @@ public class RouteDto implements Serializable {
 
     private float distance;
 
+    @JsonBackReference
     private OutletDto outlet_from;
 
+    @JsonBackReference
     private OutletDto outlet_to;
 
-    private Set<RoutesForCarriageDto> routesForCarriageSet;
+    @JsonManagedReference
+    private List<RoutesForCarriageDto> routesForCarriageSet;
 
 }

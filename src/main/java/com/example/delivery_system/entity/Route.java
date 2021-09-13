@@ -4,7 +4,7 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Set;
+import java.util.List;
 
 @Data
 @Entity
@@ -29,6 +29,6 @@ public class Route implements Serializable {
     //////////////////////////////
 
     @OneToMany(mappedBy = "route", cascade = CascadeType.ALL)
-    private Set<RoutesForCarriage> routesForCarriageSet;
+    private List<RoutesForCarriage> routesForCarriageSet;
 
 }

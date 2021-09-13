@@ -5,7 +5,6 @@ import lombok.Data;
 
 import java.io.Serializable;
 import java.util.List;
-import java.util.Set;
 
 @Data
 public class GoodDto implements Serializable {
@@ -18,5 +17,11 @@ public class GoodDto implements Serializable {
 
     @JsonManagedReference
     private List<GoodsInOutletsDto> goodsInOutlets;
+
+    @JsonManagedReference
+    private List<OrderDto> orderList;
+    //private List<Order> orderList; // this make exeption
+
+
 
 }

@@ -1,8 +1,11 @@
 package com.example.delivery_system.controller;
 
 
+import com.example.delivery_system.dto.RouteDto;
 import com.example.delivery_system.entity.Carriage;
 import com.example.delivery_system.dto.CarriageDto;
+import com.example.delivery_system.entity.Route;
+import com.example.delivery_system.entity.RoutesForCarriage;
 import com.example.delivery_system.service.CarriageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -11,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import org.modelmapper.ModelMapper;
 
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -34,6 +38,14 @@ public class CarriageController {
     @GetMapping("/{id}")
     ResponseEntity<CarriageDto> getById(@PathVariable Long id) {
         return ResponseEntity.ok(convertToDto(carriageService.findCarriageById(id)));
+    }
+
+    @GetMapping("/routes/{id}")
+    ResponseEntity<List<RouteDto>> getRoutesByCarriageId(@PathVariable Long id) {
+        return ResponseEntity.ok(carriageService.findCarriageById(id)
+                .getRoutesForCarriageSet().stream()
+                .map(routeForCarriage -> modelMapper.map(routeForCarriage.getRoute(), RouteDto.class))
+                .collect(Collectors.toList()));
     }
 
     @PostMapping()

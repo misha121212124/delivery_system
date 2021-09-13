@@ -25,6 +25,9 @@ public class Good implements Serializable {
     @OneToMany(mappedBy = "good", cascade = CascadeType.ALL)
     private List<GoodsInOutlets> goodsInOutlets;
 
+    @OneToMany(mappedBy = "good", cascade = CascadeType.ALL)
+    private List<Order> orderList;
+
 //    public Good(String name, int volume) {
 //        this.name = name;
 //        this.volume = volume;

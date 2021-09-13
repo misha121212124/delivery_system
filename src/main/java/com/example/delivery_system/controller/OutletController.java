@@ -1,7 +1,6 @@
 package com.example.delivery_system.controller;
 
-import com.example.delivery_system.dto.GoodsInOutletsDto;
-import com.example.delivery_system.dto.OutletDto;
+import com.example.delivery_system.dto.*;
 import com.example.delivery_system.entity.Outlet;
 import com.example.delivery_system.service.OutletService;
 import lombok.RequiredArgsConstructor;
@@ -35,6 +34,42 @@ public class OutletController {
     @GetMapping("/{id}")
     ResponseEntity<OutletDto> getById(@PathVariable Long id) {
         return ResponseEntity.ok(convertToDto(outletService.findOutletById(id)));
+    }
+
+
+
+    @GetMapping("/goods/{id}")
+    ResponseEntity<List<GoodDto>> getGoodsByOutletId(@PathVariable Long id) {
+        return ResponseEntity.ok(outletService.findOutletById(id)
+                .getGoodsInOutletsSet().stream()
+                .map(goodInOutlets -> modelMapper.map(goodInOutlets.getGood(), GoodDto.class))
+                .collect(Collectors.toList()));
+    }
+
+    @GetMapping("/orders/{id}")
+    ResponseEntity<List<OrderDto>> getOrdersByOutletId(@PathVariable Long id) {
+        return ResponseEntity.ok(outletService.findOutletById(id)
+                .getOrderList().stream()
+                .map(order -> modelMapper.map(order, OrderDto.class))
+                .collect(Collectors.toList()));
+    }
+
+
+    @GetMapping("/routes-from/{id}")
+    ResponseEntity<List<RouteDto>> getRoutesByOutletFromId(@PathVariable Long id) {
+        return ResponseEntity.ok(outletService.findOutletById(id)
+                .getRoutesFrom().stream()
+                .map(route -> modelMapper.map(route, RouteDto.class))
+                .collect(Collectors.toList()));
+    }
+
+    @GetMapping("/routes-to/{id}")
+    ResponseEntity<List<RouteDto>> getRoutesByOutletToId(@PathVariable Long id) {
+
+        return ResponseEntity.ok(outletService.findOutletById(id)
+                .getRoutesTo().stream()
+                .map(route -> modelMapper.map(route, RouteDto.class))
+                .collect(Collectors.toList()));
     }
 
     @PostMapping()

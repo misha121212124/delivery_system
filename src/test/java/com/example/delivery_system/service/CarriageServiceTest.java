@@ -1,7 +1,6 @@
 package com.example.delivery_system.service;
 
 import com.example.delivery_system.entity.Carriage;
-import com.example.delivery_system.entity.Outlet;
 import com.example.delivery_system.repository.CarriageRepository;
 import com.example.delivery_system.repository.OrderRepository;
 import com.example.delivery_system.repository.RouteRepository;

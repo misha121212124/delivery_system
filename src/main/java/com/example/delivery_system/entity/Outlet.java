@@ -5,7 +5,6 @@ import lombok.*;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
-import java.util.Set;
 
 @Data
 @Entity
@@ -20,7 +19,17 @@ public class Outlet implements Serializable {
     private String name;
 
 
-    @OneToMany(mappedBy = "outlet", cascade = CascadeType.ALL)////розібратися, чому з mappedBy = "outlets" виникає помилка
+    @OneToMany(mappedBy = "outlet", cascade = CascadeType.ALL)
     private List<GoodsInOutlets> goodsInOutletsSet;
+
+    @OneToMany(mappedBy = "outlet_from", cascade = CascadeType.ALL)
+    private List<Route> routesFrom;
+
+    @OneToMany(mappedBy = "outlet_to", cascade = CascadeType.ALL)
+    private List<Route> routesTo;
+
+    @OneToMany(mappedBy = "outlet", cascade = CascadeType.ALL)
+    private List<Order> orderList;
+
 }
 
