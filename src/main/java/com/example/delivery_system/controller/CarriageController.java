@@ -32,18 +32,18 @@ public class CarriageController {
     }
 
     @GetMapping("/{id}")
-    ResponseEntity <Carriage> getById(@PathVariable Long id) {
-        return ResponseEntity.ok(carriageService.findCarriageById(id));
+    ResponseEntity<CarriageDto> getById(@PathVariable Long id) {
+        return ResponseEntity.ok(convertToDto(carriageService.findCarriageById(id)));
     }
 
     @PostMapping()
-    ResponseEntity <Carriage> newCarriage(@RequestBody Carriage newCarriage) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(carriageService.save(newCarriage));
+    ResponseEntity <CarriageDto> newCarriage(@RequestBody CarriageDto newCarriage) throws ParseException {
+        return ResponseEntity.status(HttpStatus.CREATED).body(convertToDto(carriageService.save(convertToEntity(newCarriage))));
     }
 
     @PutMapping("/{id}")
-    ResponseEntity <Carriage> updateCarriage(@RequestBody Carriage newCarriage, @PathVariable Long id) {
-        return ResponseEntity.ok(carriageService.update(newCarriage, id));
+    ResponseEntity <CarriageDto> updateCarriage(@RequestBody CarriageDto newCarriage, @PathVariable Long id) throws ParseException {
+        return ResponseEntity.ok(convertToDto(carriageService.update(convertToEntity(newCarriage), id)));
     }
 
     @DeleteMapping("/{id}")
