@@ -14,12 +14,12 @@ databaseChangeLog:
                     primaryKey: true
                     nullable: false
               - column:
-                  name: outlets_id
+                  name: outlet_id
                   type: BIGINT
                   constraints:
                     nullable: false
               - column:
-                  name: goods_id
+                  name: good_id
                   type: BIGINT
                   constraints:
                     nullable: false
@@ -32,9 +32,9 @@ databaseChangeLog:
       author: Mykhailo Muliar
       changes:
         - addForeignKeyConstraint:
-            baseColumnNames: outlets_id
+            baseColumnNames: outlet_id
             baseTableName: outlets_goods
-            constraintName: outlets_id_FK
+            constraintName: outlet_id_FK
             deferrable: false
             initiallyDeferred: false
             referencedColumnNames: id
@@ -44,9 +44,9 @@ databaseChangeLog:
       author: Mykhailo Muliar
       changes:
         - addForeignKeyConstraint:
-            baseColumnNames: goods_id
+            baseColumnNames: good_id
             baseTableName: outlets_goods
-            constraintName: goods_id_FK
+            constraintName: good_id_FK
             deferrable: false
             initiallyDeferred: false
             referencedColumnNames: id

@@ -1,0 +1,76 @@
+databaseChangeLog:
+  - logicalFilePath: db/changelog/20_addTestRecords.yaml
+  - changeSet:
+      id: 20
+      author: Mykhailo Muliar
+      comment: "Insert test records"
+      changes:
+        - insert:
+            tableName: outlets
+            columns:
+              - column:
+                  name: name
+                  value: "outlet_1"
+
+        - insert:
+            tableName: outlets
+            columns:
+              - column:
+                  name: name
+                  value: "outlet_2"
+        - insert:
+            tableName: outlets
+            columns:
+              - column:
+                  name: name
+                  value: "outlet_3"
+        - insert:
+            tableName: goods
+            columns:
+              - column:
+                  name: name
+                  value: "good_1"
+              - column:
+                  name: volume
+                  value: 15
+        - insert:
+            tableName: goods
+            columns:
+              - column:
+                  name: name
+                  value: "good_2"
+              - column:
+                  name: volume
+                  value: 18
+        - insert:
+            tableName: goods
+            columns:
+              - column:
+                  name: name
+                  value: "good_3"
+              - column:
+                  name: volume
+                  value: 6
+        - insert:
+            tableName: outlets_goods
+            columns:
+              - column:
+                  name: outlet_id
+                  value: 2
+              - column:
+                  name: good_id
+                  value: 1
+              - column:
+                  name: count
+                  value: 3
+
+      rollback:
+        - delete:
+            tableName: users
+            where: name in ('outlet_1', 'outlet_2', 'outlet_3')
+        - delete:
+            tableName: goods
+            where: name in ('good_1', 'good_2', 'good_3')
+        - delete:
+            tableName: outlets_goods
+            where: outlet_id in (2)

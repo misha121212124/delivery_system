@@ -24,5 +24,8 @@ databaseChangeLog:
   - include:
       file: 17_addCarriagesOrders.yaml
       relativeToChangelogFile: true
+  - include:
+      file: 20_addTestRecords.yaml
+      relativeToChangelogFile: true
 
 
