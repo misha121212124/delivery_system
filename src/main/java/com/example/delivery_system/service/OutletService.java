@@ -1,16 +1,14 @@
 package com.example.delivery_system.service;
 
-import com.example.delivery_system.entity.GoodsInOutlets;
 import com.example.delivery_system.entity.Outlet;
 import com.example.delivery_system.repository.OutletRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
-import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -21,7 +19,9 @@ public class OutletService {
 
     public Outlet findOutletById(Long outletId) {
         Optional<Outlet> outletFromDb = outletRepository.findById(outletId);
-        return outletFromDb.orElse(new Outlet());
+        if(outletFromDb.isEmpty()) throw new NoSuchElementException("There is such outlet whith id = "+ outletId);
+//        return outletFromDb.orElse(new Outlet());
+        return outletFromDb.get();
     }
 
     public Outlet update(Outlet newOutlet, Long oldId) {
