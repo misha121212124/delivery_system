@@ -1,43 +1,62 @@
 package com.example.delivery_system.controller;
 
+import com.example.delivery_system.dto.RouteDto;
 import com.example.delivery_system.entity.Route;
 import com.example.delivery_system.service.RouteService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.ParseException;
 import java.util.List;
+import java.util.stream.Collectors;
 
+@RequiredArgsConstructor
 @RestController
 public class RouteController {
-    private RouteService routeService;
+    private final RouteService routeService;
 
-    @Autowired
-    public RouteController(RouteService routeService) {
-        this.routeService = routeService;
-    }
+    private final ModelMapper modelMapper;
+
 
     @GetMapping("/routes")
-    public List<Route> allRoutes() {
-        return routeService.allRoutes();
+    public ResponseEntity<List<RouteDto>> allRoutes() {
+        List<Route> routes = routeService.allRoutes();
+        return ResponseEntity.ok(routes.stream()
+                .map(this::convertToDto)
+                .collect(Collectors.toList()));
     }
 
     @GetMapping("/routes/{id}")
-    Route getById(@PathVariable Long id) {
-        return routeService.findRouteById(id);
+    ResponseEntity<RouteDto> getById(@PathVariable Long id) {
+        return ResponseEntity.ok(convertToDto(routeService.findRouteById(id)));
     }
 
     @PostMapping("/route")
-    Route newRoute(@RequestBody Route newRoute) {
-        return routeService.save(newRoute);
+    ResponseEntity<RouteDto> newRoute(@RequestBody RouteDto newRoute) throws ParseException {
+        return ResponseEntity.status(HttpStatus.CREATED).body(convertToDto(routeService.save(convertToEntity(newRoute))));
     }
 
     @PutMapping("/routes/{id}")
-    Route updateRoute(@RequestBody Route newRoute, @PathVariable Long id) {
-        return routeService.update(newRoute, id);
+    ResponseEntity<RouteDto> updateRoute(@RequestBody RouteDto newRoute, @PathVariable Long id) throws ParseException {
+        return ResponseEntity.ok(convertToDto(routeService.update(convertToEntity(newRoute), id)));
     }
 
     @DeleteMapping("/routes/{id}")
-    void deleteRoute(@PathVariable Long id) {
+    ResponseEntity<Void> deleteRoute(@PathVariable Long id) {
         routeService.deleteById(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    private RouteDto convertToDto(Route route) {
+        RouteDto routeDto = modelMapper.map(route, RouteDto.class);
+        return routeDto;
+    }
+
+    private Route convertToEntity(RouteDto routeDto) throws ParseException {
+        Route route = modelMapper.map(routeDto, Route.class);
+        return route;
     }
 }
