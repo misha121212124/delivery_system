@@ -13,10 +13,9 @@ public class Order implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-//    @Column(name = "id")
     private Long id;
 
-    @Column(/*name = "count",*/ nullable = false)
+    @Column( nullable = false)
     private int count;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
@@ -27,11 +26,7 @@ public class Order implements Serializable {
     @JoinColumn(name = "good_id")
     private Good good;
 
-//    @Transient
-    @ManyToMany(mappedBy = "orders")///???
+    //    @Transient
+    @ManyToMany(mappedBy = "orders")
     private Set<Carriage> carriages;
-
-//    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
-//    private Set<OrdersOnCarriage> ordersOnCarriageSet;
-
 }

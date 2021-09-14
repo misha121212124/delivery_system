@@ -26,12 +26,6 @@ public class GoodsInOutlets implements Serializable {
 
     private int count;
 
-    public GoodsInOutlets(Outlet outlet, Good good, int count) {
-        this.outlet = outlet;
-        this.good = good;
-        this.count = count;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

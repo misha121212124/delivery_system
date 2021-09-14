@@ -13,13 +13,12 @@ public class Carriage implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-//    @Column(name = "id")
     private Long id;
 
-    @Column(/*name = "capacity",*/ nullable = false)
+    @Column(nullable = false)
     private int capacity;
 
-    @Column(/*name = "point",*/ nullable = false)
+    @Column(nullable = false)
     private int point;
 
     @OneToMany(mappedBy = "carriage", cascade = CascadeType.ALL)
@@ -31,9 +30,4 @@ public class Carriage implements Serializable {
             joinColumns = @JoinColumn(name = "carriage_id"),
             inverseJoinColumns = @JoinColumn(name = "order_id"))
     private Set<Order> orders;
-
-//    @OneToMany(mappedBy = "carriage", cascade = CascadeType.ALL)
-//    private Set<OrdersOnCarriage> ordersOnCarriageSet;
-
-
 }
