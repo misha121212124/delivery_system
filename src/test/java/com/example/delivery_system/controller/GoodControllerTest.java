@@ -57,7 +57,7 @@ class GoodControllerTest {
     }
 
     @Test
-    void newGood() throws ParseException {
+    void newGood(){
         GoodDto goodDto = new GoodDto();
         goodDto.setGoodsInOutlets(new ArrayList<>());
         Good forSave = new Good();
@@ -69,7 +69,7 @@ class GoodControllerTest {
     }
 
     @Test
-    void updateGood() throws ParseException {
+    void updateGood(){
         GoodDto goodDto = new GoodDto();
         goodDto.setGoodsInOutlets(new ArrayList<>());
         goodDto.setId(6L);

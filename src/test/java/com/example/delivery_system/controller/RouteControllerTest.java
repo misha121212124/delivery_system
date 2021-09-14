@@ -7,6 +7,7 @@ import com.example.delivery_system.entity.Route;
 import com.example.delivery_system.repository.OutletRepository;
 import com.example.delivery_system.repository.RouteRepository;
 import com.example.delivery_system.service.RouteService;
+import liquibase.pro.packaged.A;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -44,7 +45,7 @@ class RouteControllerTest {
     void allRoutes() {
         List<Route> list = new ArrayList<>();
         Route testRoute = new Route();
-        testRoute.setRoutesForCarriageSet(new HashSet<>());
+        testRoute.setRoutesForCarriageSet(new ArrayList<>());
         testRoute.setOutlet_to(new Outlet());
         testRoute.setOutlet_from(new Outlet());
         list.add(testRoute);
@@ -57,7 +58,7 @@ class RouteControllerTest {
     @Test
     void getById() {
         Route testRoute = new Route();
-        testRoute.setRoutesForCarriageSet(new HashSet<>());
+        testRoute.setRoutesForCarriageSet(new ArrayList<>());
         testRoute.setOutlet_to(new Outlet());
         testRoute.setOutlet_from(new Outlet());
         when(routeRepository.findById(1L)).thenReturn(Optional.of(testRoute));
@@ -67,13 +68,13 @@ class RouteControllerTest {
     }
 
     @Test
-    void newRoute() throws ParseException {
+    void newRoute(){
         RouteDto routeDto = new RouteDto();
-        routeDto.setRoutesForCarriageSet(new HashSet<>());
+        routeDto.setRoutesForCarriageSet(new ArrayList<>());
         routeDto.setOutlet_to(new OutletDto());
         routeDto.setOutlet_from(new OutletDto());
         Route forSave = new Route();
-        forSave.setRoutesForCarriageSet(new HashSet<>());
+        forSave.setRoutesForCarriageSet(new ArrayList<>());
         forSave.setOutlet_to(new Outlet());
         forSave.setOutlet_from(new Outlet());
         when(routeRepository.save(any(Route.class))).thenReturn(forSave);
@@ -83,15 +84,16 @@ class RouteControllerTest {
     }
 
     @Test
-    void updateRoute() throws ParseException {
+    void updateRoute(){
         RouteDto routeDto = new RouteDto();
-        routeDto.setRoutesForCarriageSet(new HashSet<>());
+        routeDto.setRoutesForCarriageSet(new ArrayList<>());
         routeDto.setOutlet_to(new OutletDto());
         routeDto.setOutlet_from(new OutletDto());
         routeDto.setId(6L);
         Route forSave = new Route();
         forSave.setOutlet_to(new Outlet());
-        forSave.setOutlet_from(new Outlet());        when(routeRepository.save(any(Route.class))).thenReturn(forSave);
+        forSave.setOutlet_from(new Outlet());
+        when(routeRepository.save(any(Route.class))).thenReturn(forSave);
         when(routeRepository.findById(6L)).thenReturn(Optional.of(new Route())
                 .map(route -> {
                     route.setId(6L);

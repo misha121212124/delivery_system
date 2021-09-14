@@ -57,7 +57,7 @@ class OutletControllerTest {
     }
 
     @Test
-    void newOutlet() throws ParseException {
+    void newOutlet(){
         OutletDto outletDto = new OutletDto();
         outletDto.setGoodsInOutletsSet(new ArrayList<>());
         Outlet forSave = new Outlet();
@@ -69,7 +69,7 @@ class OutletControllerTest {
     }
 
     @Test
-    void updateOutlet() throws ParseException {
+    void updateOutlet(){
         OutletDto outletDto = new OutletDto();
         outletDto.setGoodsInOutletsSet(new ArrayList<>());
         outletDto.setId(6L);

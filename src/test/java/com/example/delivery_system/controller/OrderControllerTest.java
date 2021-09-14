@@ -72,7 +72,7 @@ class OrderControllerTest {
     }
 
     @Test
-    void newOrder() throws ParseException {
+    void newOrder(){
         OrderDto orderDto = new OrderDto();
         orderDto.setCarriages(new HashSet<>());
         orderDto.setOutlet(new OutletDto());
@@ -88,7 +88,7 @@ class OrderControllerTest {
     }
 
     @Test
-    void updateOrder() throws ParseException {
+    void updateOrder(){
         OrderDto orderDto = new OrderDto();
         orderDto.setCarriages(new HashSet<>());
         orderDto.setOutlet(new OutletDto());

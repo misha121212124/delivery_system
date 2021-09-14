@@ -1,6 +1,7 @@
 package com.example.delivery_system.controller;
 
-
+import com.example.delivery_system.dto.OrderDto;
+import com.example.delivery_system.dto.RouteDto;
 import com.example.delivery_system.entity.Carriage;
 import com.example.delivery_system.dto.CarriageDto;
 import com.example.delivery_system.service.CarriageService;
@@ -10,7 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.modelmapper.ModelMapper;
 
-import java.text.ParseException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -27,8 +27,8 @@ public class CarriageController {
 
         List<Carriage> carriages = carriageService.allCarriages();
         return ResponseEntity.ok(carriages.stream()
-            .map(this::convertToDto)
-            .collect(Collectors.toList()));
+                .map(this::convertToDto)
+                .collect(Collectors.toList()));
     }
 
     @GetMapping("/{id}")
@@ -36,13 +36,29 @@ public class CarriageController {
         return ResponseEntity.ok(convertToDto(carriageService.findCarriageById(id)));
     }
 
+    @GetMapping("/routes/{id}")
+    ResponseEntity<List<RouteDto>> getRoutesByCarriageId(@PathVariable Long id) {
+        return ResponseEntity.ok(carriageService.findCarriageById(id)
+                .getRoutesForCarriageSet().stream()
+                .map(routeForCarriage -> modelMapper.map(routeForCarriage.getRoute(), RouteDto.class))
+                .collect(Collectors.toList()));
+    }
+
+    @GetMapping("/orders/{id}")
+    ResponseEntity<List<OrderDto>> getOrdersByCarriageId(@PathVariable Long id) {
+        return ResponseEntity.ok(carriageService.findCarriageById(id)
+                .getOrders().stream()
+                .map(order -> modelMapper.map(order, OrderDto.class))
+                .collect(Collectors.toList()));
+    }
+
     @PostMapping()
-    ResponseEntity <CarriageDto> newCarriage(@RequestBody CarriageDto newCarriage) throws ParseException {
+    ResponseEntity <CarriageDto> newCarriage(@RequestBody CarriageDto newCarriage) {
         return ResponseEntity.status(HttpStatus.CREATED).body(convertToDto(carriageService.save(convertToEntity(newCarriage))));
     }
 
     @PutMapping("/{id}")
-    ResponseEntity <CarriageDto> updateCarriage(@RequestBody CarriageDto newCarriage, @PathVariable Long id) throws ParseException {
+    ResponseEntity <CarriageDto> updateCarriage(@RequestBody CarriageDto newCarriage, @PathVariable Long id) {
         return ResponseEntity.ok(convertToDto(carriageService.update(convertToEntity(newCarriage), id)));
     }
 
@@ -57,7 +73,7 @@ public class CarriageController {
         return carriageDto;
     }
 
-    private Carriage convertToEntity(CarriageDto carriageDto) throws ParseException {
+    private Carriage convertToEntity(CarriageDto carriageDto) {
         Carriage carriage = modelMapper.map(carriageDto, Carriage.class);
         return carriage;
     }

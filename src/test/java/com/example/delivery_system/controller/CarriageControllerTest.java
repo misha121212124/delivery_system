@@ -68,7 +68,7 @@ class CarriageControllerTest {
     }
 
     @Test
-    void newCarriage() throws ParseException {
+    void newCarriage(){
         CarriageDto carriageDto = new CarriageDto();
         carriageDto.setOrders(new HashSet<>());
         carriageDto.setRoutesForCarriageSet(new HashSet<>());
@@ -82,7 +82,7 @@ class CarriageControllerTest {
     }
 
     @Test
-    void updateCarriage() throws ParseException {
+    void updateCarriage(){
         CarriageDto carriageDto = new CarriageDto();
         carriageDto.setOrders(new HashSet<>());
         carriageDto.setRoutesForCarriageSet(new HashSet<>());
