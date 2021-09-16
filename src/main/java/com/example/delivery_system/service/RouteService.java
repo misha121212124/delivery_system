@@ -22,13 +22,26 @@ public class RouteService {
         return routeFromDb.orElse(new Route());
     }
 
+    public List<Route> allRoutesByOutletFromId(Long outletFromId){
+        return routeRepository.findByOutlet_from_id(outletFromId);
+    }
+
+    public List<Route> allRoutesByOutletToId(Long outletToId){
+        return routeRepository.findByOutlet_to_id(outletToId);
+    }
+
+    public Route findRouteByOutlets(Long outletFromId, Long outletToId){
+        Optional<Route> route = routeRepository.findByOutlet_from_idAndOutlet_to_id(outletFromId, outletToId);
+        return route.orElse(null);
+    }
+
     public Route update(Route newRoute, Long oldId) {
         return routeRepository.findById(oldId).
                 map(route -> {
                     route.setOutlet_from(newRoute.getOutlet_from());
                     route.setOutlet_to(newRoute.getOutlet_to());
                     route.setDistance(newRoute.getDistance());
-                    route.setRoutesForCarriageSet(newRoute.getRoutesForCarriageSet());
+                    route.setRoutesForCarriage(newRoute.getRoutesForCarriage());
                     return routeRepository.save(route);
                 })
                 .orElseGet(() -> {

@@ -4,7 +4,7 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Set;
+import java.util.List;
 
 @Data
 @Entity
@@ -22,12 +22,12 @@ public class Carriage implements Serializable {
     private int point;
 
     @OneToMany(mappedBy = "carriage", cascade = CascadeType.ALL)
-    private Set<RoutesForCarriage> routesForCarriageSet;
+    private List<RoutesForCarriage> routesForCarriage;
 
     @ManyToMany///апдейтиити треба carriage.setOrders();, не можна order.setCarriages();
     @JoinTable(
             name = "carriages_orders",
             joinColumns = @JoinColumn(name = "carriage_id"),
             inverseJoinColumns = @JoinColumn(name = "order_id"))
-    private Set<Order> orders;
+    private List<Order> orders;
 }

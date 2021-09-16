@@ -4,43 +4,44 @@ import com.example.delivery_system.dto.OrderDto;
 import com.example.delivery_system.dto.RouteDto;
 import com.example.delivery_system.entity.Carriage;
 import com.example.delivery_system.dto.CarriageDto;
+import com.example.delivery_system.entity.RoutesForCarriage;
 import com.example.delivery_system.service.CarriageService;
+import com.example.delivery_system.service.DtoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.modelmapper.ModelMapper;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/сarriages")
+@RequestMapping("/carriages")
 public class CarriageController {
     private final CarriageService carriageService;
-
-    private final ModelMapper modelMapper;
+    private final DtoService dtoService;
 
     @GetMapping()
     public ResponseEntity<List<CarriageDto>> allCarriages() {
 
         List<Carriage> carriages = carriageService.allCarriages();
         return ResponseEntity.ok(carriages.stream()
-                .map(this::convertToDto)
+                .map(dtoService::convertToDto)
                 .collect(Collectors.toList()));
     }
 
     @GetMapping("/{id}")
     ResponseEntity<CarriageDto> getById(@PathVariable Long id) {
-        return ResponseEntity.ok(convertToDto(carriageService.findCarriageById(id)));
+        return ResponseEntity.ok(dtoService.convertToDto(carriageService.findCarriageById(id)));
     }
 
     @GetMapping("/routes/{id}")
     ResponseEntity<List<RouteDto>> getRoutesByCarriageId(@PathVariable Long id) {
         return ResponseEntity.ok(carriageService.findCarriageById(id)
-                .getRoutesForCarriageSet().stream()
-                .map(routeForCarriage -> modelMapper.map(routeForCarriage.getRoute(), RouteDto.class))
+                .getRoutesForCarriage().stream()
+                .map(RoutesForCarriage::getRoute)
+                .map(dtoService::convertToDto)
                 .collect(Collectors.toList()));
     }
 
@@ -48,18 +49,20 @@ public class CarriageController {
     ResponseEntity<List<OrderDto>> getOrdersByCarriageId(@PathVariable Long id) {
         return ResponseEntity.ok(carriageService.findCarriageById(id)
                 .getOrders().stream()
-                .map(order -> modelMapper.map(order, OrderDto.class))
+                .map(dtoService::convertToDto)
                 .collect(Collectors.toList()));
     }
 
     @PostMapping()
     ResponseEntity <CarriageDto> newCarriage(@RequestBody CarriageDto newCarriage) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(convertToDto(carriageService.save(convertToEntity(newCarriage))));
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(dtoService.convertToDto(carriageService.save(dtoService.convertToEntity(newCarriage))));
     }
 
     @PutMapping("/{id}")
     ResponseEntity <CarriageDto> updateCarriage(@RequestBody CarriageDto newCarriage, @PathVariable Long id) {
-        return ResponseEntity.ok(convertToDto(carriageService.update(convertToEntity(newCarriage), id)));
+        return ResponseEntity
+                .ok(dtoService.convertToDto(carriageService.update(dtoService.convertToEntity(newCarriage), id)));
     }
 
     @DeleteMapping("/{id}")
@@ -68,13 +71,5 @@ public class CarriageController {
         return ResponseEntity.noContent().build();
     }
 
-    private CarriageDto convertToDto(Carriage carriage) {
-        CarriageDto carriageDto = modelMapper.map(carriage, CarriageDto.class);
-        return carriageDto;
-    }
 
-    private Carriage convertToEntity(CarriageDto carriageDto) {
-        Carriage carriage = modelMapper.map(carriageDto, Carriage.class);
-        return carriage;
-    }
 }

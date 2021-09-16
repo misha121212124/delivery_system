@@ -21,6 +21,9 @@ public class RouteDto implements Serializable {
     private OutletDto outlet_to;
 
     @JsonManagedReference
-    private List<RoutesForCarriageDto> routesForCarriageSet;
+    private List<RoutesForCarriageDto> routesForCarriage;
+
+    private long outlet_from_Id;
+    private long outlet_to_Id;
 
 }

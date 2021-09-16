@@ -19,8 +19,7 @@ public class OutletService {
 
     public Outlet findOutletById(Long outletId) {
         Optional<Outlet> outletFromDb = outletRepository.findById(outletId);
-        if(outletFromDb.isEmpty()) throw new NoSuchElementException("There is such outlet whith id = "+ outletId);
-//        return outletFromDb.orElse(new Outlet());
+        if(outletFromDb.isEmpty()) throw new NoSuchElementException("There is no such outlet with id = "+ outletId);
         return outletFromDb.get();
     }
 
@@ -28,7 +27,7 @@ public class OutletService {
         return outletRepository.findById(oldId).
                 map(outlet -> {
                     outlet.setName(newOutlet.getName());
-                    outlet.setGoodsInOutletsSet(newOutlet.getGoodsInOutletsSet());
+                    outlet.setGoodsInOutlets(newOutlet.getGoodsInOutlets());
                     return outletRepository.save(outlet);
                 })
                 .orElseGet(() -> {
@@ -41,6 +40,9 @@ public class OutletService {
         return outletRepository.findAll(Sort.by("name"));
     }
 
+    public List<Outlet> allOutletsSortedById() {
+        return outletRepository.findAll(Sort.by("id"));
+    }
 
     public Outlet save(Outlet newOutlet){
         return outletRepository.save(newOutlet);

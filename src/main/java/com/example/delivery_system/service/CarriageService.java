@@ -30,7 +30,7 @@ public class CarriageService {
                     carriage.setCapacity(newCarriage.getCapacity());
 //                    carriage.setOrdersOnCarriageSet(newCarriage.getOrdersOnCarriageSet());
                     carriage.setOrders(newCarriage.getOrders());
-                    carriage.setRoutesForCarriageSet(newCarriage.getRoutesForCarriageSet());
+                    carriage.setRoutesForCarriage(newCarriage.getRoutesForCarriage());
                     carriage.setPoint(newCarriage.getPoint());
                     return carriageRepository.save(carriage);
                 })

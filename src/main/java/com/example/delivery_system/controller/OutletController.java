@@ -1,10 +1,11 @@
 package com.example.delivery_system.controller;
 
 import com.example.delivery_system.dto.*;
+import com.example.delivery_system.entity.GoodsInOutlets;
 import com.example.delivery_system.entity.Outlet;
+import com.example.delivery_system.service.DtoService;
 import com.example.delivery_system.service.OutletService;
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,27 +19,28 @@ import java.util.stream.Collectors;
 @RequestMapping("/outlets")
 public class OutletController {
     private final OutletService outletService;
+    private final DtoService dtoService;
 
-    private final ModelMapper modelMapper;
 
     @GetMapping()
     public ResponseEntity<List<OutletDto>> allOutlets() {
         List<Outlet> outlets = outletService.allOutlets();
         return ResponseEntity.ok(outlets.stream()
-                .map(this::convertToDto)
+                .map(dtoService::convertToDto)
                 .collect(Collectors.toList()));
     }
 
     @GetMapping("/{id}")
     ResponseEntity<OutletDto> getById(@PathVariable Long id) {
-        return ResponseEntity.ok(convertToDto(outletService.findOutletById(id)));
+        return ResponseEntity.ok(dtoService.convertToDto(outletService.findOutletById(id)));
     }
 
     @GetMapping("/goods/{id}")
     ResponseEntity<List<GoodDto>> getGoodsByOutletId(@PathVariable Long id) {
         return ResponseEntity.ok(outletService.findOutletById(id)
-                .getGoodsInOutletsSet().stream()
-                .map(goodInOutlets -> modelMapper.map(goodInOutlets.getGood(), GoodDto.class))
+                .getGoodsInOutlets().stream()
+                .map(GoodsInOutlets::getGood)
+                .map(dtoService::convertToDto)
                 .collect(Collectors.toList()));
     }
 
@@ -46,7 +48,7 @@ public class OutletController {
     ResponseEntity<List<OrderDto>> getOrdersByOutletId(@PathVariable Long id) {
         return ResponseEntity.ok(outletService.findOutletById(id)
                 .getOrderList().stream()
-                .map(order -> modelMapper.map(order, OrderDto.class))
+                .map(dtoService::convertToDto)
                 .collect(Collectors.toList()));
     }
 
@@ -55,7 +57,7 @@ public class OutletController {
     ResponseEntity<List<RouteDto>> getRoutesByOutletFromId(@PathVariable Long id) {
         return ResponseEntity.ok(outletService.findOutletById(id)
                 .getRoutesFrom().stream()
-                .map(route -> modelMapper.map(route, RouteDto.class))
+                .map(dtoService::convertToDto)
                 .collect(Collectors.toList()));
     }
 
@@ -64,18 +66,20 @@ public class OutletController {
 
         return ResponseEntity.ok(outletService.findOutletById(id)
                 .getRoutesTo().stream()
-                .map(route -> modelMapper.map(route, RouteDto.class))
+                .map(dtoService::convertToDto)
                 .collect(Collectors.toList()));
     }
 
     @PostMapping()
     ResponseEntity<OutletDto> newOutlet(@RequestBody OutletDto newOutlet)  {
-        return ResponseEntity.status(HttpStatus.CREATED).body(convertToDto(outletService.save(convertToEntity(newOutlet))));
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(dtoService.convertToDto(outletService.save(dtoService.convertToEntity(newOutlet))));
     }
 
     @PutMapping("/{id}")
     ResponseEntity<OutletDto> updateOutlet(@RequestBody OutletDto newOutlet, @PathVariable Long id)  {
-        return ResponseEntity.ok(convertToDto(outletService.update(convertToEntity(newOutlet), id)));
+        return ResponseEntity
+                .ok(dtoService.convertToDto(outletService.update(dtoService.convertToEntity(newOutlet), id)));
     }
 
     @DeleteMapping("/{id}")
@@ -85,17 +89,5 @@ public class OutletController {
 
     }
 
-    private OutletDto convertToDto(Outlet outlet) {
-        OutletDto outletDto = modelMapper.map(outlet, OutletDto.class);
-        for (GoodsInOutletsDto temp : outletDto.getGoodsInOutletsSet()) {
-            temp.setOutletId(temp.getOutlet().getId());
-            temp.setGoodId(temp.getGood().getId());
-        }
-        return outletDto;
-    }
 
-    private Outlet convertToEntity(OutletDto outletDto)  {
-        Outlet outlet = modelMapper.map(outletDto, Outlet.class);
-        return outlet;
-    }
 }

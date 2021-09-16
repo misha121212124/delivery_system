@@ -4,7 +4,7 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Set;
+import java.util.List;
 
 @Data
 @Entity
@@ -28,5 +28,5 @@ public class Order implements Serializable {
 
     //    @Transient
     @ManyToMany(mappedBy = "orders")
-    private Set<Carriage> carriages;
+    private List<Carriage> carriages;
 }

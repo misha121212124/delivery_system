@@ -1,13 +1,13 @@
 package com.example.delivery_system.controller;
 
 import com.example.delivery_system.dto.CarriageDto;
-import com.example.delivery_system.dto.GoodDto;
 import com.example.delivery_system.dto.OutletDto;
 import com.example.delivery_system.dto.RouteDto;
 import com.example.delivery_system.entity.Route;
+import com.example.delivery_system.entity.RoutesForCarriage;
+import com.example.delivery_system.service.DtoService;
 import com.example.delivery_system.service.RouteService;
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,49 +20,49 @@ import java.util.stream.Collectors;
 @RequestMapping("/routes")
 public class RouteController {
     private final RouteService routeService;
-
-    private final ModelMapper modelMapper;
-
+    private final DtoService dtoService;
 
     @GetMapping()
     public ResponseEntity<List<RouteDto>> allRoutes() {
         List<Route> routes = routeService.allRoutes();
         return ResponseEntity.ok(routes.stream()
-                .map(this::convertToDto)
+                .map(dtoService::convertToDto)
                 .collect(Collectors.toList()));
     }
 
     @GetMapping("/{id}")
     ResponseEntity<RouteDto> getById(@PathVariable Long id) {
-        return ResponseEntity.ok(convertToDto(routeService.findRouteById(id)));
+        return ResponseEntity.ok(dtoService.convertToDto(routeService.findRouteById(id)));
     }
 
     @GetMapping("/carriages/{id}")
     ResponseEntity<List<CarriageDto>> getCarriagesByRouteId(@PathVariable Long id) {
         return ResponseEntity.ok(routeService.findRouteById(id)
-                .getRoutesForCarriageSet().stream()
-                .map(routesForCarriage -> modelMapper.map(routesForCarriage.getCarriage(), CarriageDto.class))
+                .getRoutesForCarriage().stream()
+                .map(RoutesForCarriage::getCarriage)
+                .map(dtoService::convertToDto)
                 .collect(Collectors.toList()));
     }
 
     @GetMapping("/outlet-from/{id}")
     ResponseEntity<OutletDto> getOutletFromByRouteId(@PathVariable Long id) {
-        return ResponseEntity.ok(modelMapper.map(routeService.findRouteById(id).getOutlet_from(), OutletDto.class));
+        return ResponseEntity.ok(dtoService.convertToDto(routeService.findRouteById(id).getOutlet_from()));
     }
 
     @GetMapping("/outlet-to/{id}")
     ResponseEntity<OutletDto> getOutletToByRouteId(@PathVariable Long id) {
-        return ResponseEntity.ok(modelMapper.map(routeService.findRouteById(id).getOutlet_to(), OutletDto.class));
+        return ResponseEntity.ok(dtoService.convertToDto(routeService.findRouteById(id).getOutlet_to()));
     }
 
     @PostMapping()
     ResponseEntity<RouteDto> newRoute(@RequestBody RouteDto newRoute){
-        return ResponseEntity.status(HttpStatus.CREATED).body(convertToDto(routeService.save(convertToEntity(newRoute))));
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(dtoService.convertToDto(routeService.save(dtoService.convertToEntity(newRoute))));
     }
 
     @PutMapping("/{id}")
     ResponseEntity<RouteDto> updateRoute(@RequestBody RouteDto newRoute, @PathVariable Long id){
-        return ResponseEntity.ok(convertToDto(routeService.update(convertToEntity(newRoute), id)));
+        return ResponseEntity.ok(dtoService.convertToDto(routeService.update(dtoService.convertToEntity(newRoute), id)));
     }
 
     @DeleteMapping("/{id}")
@@ -71,13 +71,5 @@ public class RouteController {
         return ResponseEntity.noContent().build();
     }
 
-    private RouteDto convertToDto(Route route) {
-        RouteDto routeDto = modelMapper.map(route, RouteDto.class);
-        return routeDto;
-    }
 
-    private Route convertToEntity(RouteDto routeDto){
-        Route route = modelMapper.map(routeDto, Route.class);
-        return route;
-    }
 }

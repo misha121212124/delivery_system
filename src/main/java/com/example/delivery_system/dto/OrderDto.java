@@ -1,9 +1,11 @@
 package com.example.delivery_system.dto;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 
 import java.io.Serializable;
-import java.util.Set;
+import java.util.List;
 
 @Data
 public class OrderDto implements Serializable {
@@ -12,10 +14,13 @@ public class OrderDto implements Serializable {
 
     private int count;
 
+    @JsonBackReference
     private OutletDto outlet;
 
+    @JsonBackReference
     private GoodDto good;
 
-    private Set<CarriageDto> carriages;
+    @JsonManagedReference
+    private List<CarriageDto> carriages;
 
 }

@@ -1,6 +1,5 @@
 package com.example.delivery_system.entity;
 
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -21,7 +20,6 @@ public class RoutesForCarriage implements Serializable {
 
     private int point;
 
-
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "route_id")
     private Route route;
@@ -30,18 +28,10 @@ public class RoutesForCarriage implements Serializable {
     @JoinColumn(name = "carriage_id")
     private Carriage carriage;
 
-
-    public RoutesForCarriage(Route route, Carriage carriage, byte point) {
-        this.point = point;
-        this.route = route;
-        this.carriage = carriage;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof RoutesForCarriage)) return false;
-        RoutesForCarriage that = (RoutesForCarriage) o;
+        if (!(o instanceof RoutesForCarriage that)) return false;
         return Objects.equals(route.getId(), that.route.getId()) &&
                 Objects.equals(carriage.getId(), that.carriage.getId());
     }

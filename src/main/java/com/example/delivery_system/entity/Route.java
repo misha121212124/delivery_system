@@ -14,7 +14,7 @@ public class Route implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private float distance;
+    private int distance;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "outlet_from_id")
@@ -25,6 +25,6 @@ public class Route implements Serializable {
     private Outlet outlet_to;
 
     @OneToMany(mappedBy = "route", cascade = CascadeType.ALL)
-    private List<RoutesForCarriage> routesForCarriageSet;
+    private List<RoutesForCarriage> routesForCarriage;
 
 }

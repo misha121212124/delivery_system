@@ -29,8 +29,7 @@ public class GoodsInOutlets implements Serializable {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof GoodsInOutlets)) return false;
-        GoodsInOutlets that = (GoodsInOutlets) o;
+        if (!(o instanceof GoodsInOutlets that)) return false;
         return Objects.equals(outlet.getId(), that.outlet.getId()) &&
                 Objects.equals(good.getId(), that.good.getId());
     }

@@ -20,7 +20,7 @@ public class Outlet implements Serializable {
 
 
     @OneToMany(mappedBy = "outlet", cascade = CascadeType.ALL)
-    private List<GoodsInOutlets> goodsInOutletsSet;
+    private List<GoodsInOutlets> goodsInOutlets;
 
     @OneToMany(mappedBy = "outlet_from", cascade = CascadeType.ALL)
     private List<Route> routesFrom;
